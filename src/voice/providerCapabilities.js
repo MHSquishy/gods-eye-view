@@ -1,6 +1,7 @@
 export const VOICE_PROVIDERS = Object.freeze({
   openai: Object.freeze({ label: 'OpenAI' }), // i18n-ignore: provider product name
   gemini: Object.freeze({ label: 'Gemini' }), // i18n-ignore: provider product name
+  'gemma-local': Object.freeze({ label: 'Gemma (free)' }), // i18n-ignore: local provider
 });
 
 /** Optional providers require an explicit host opt-in and an available factory. */

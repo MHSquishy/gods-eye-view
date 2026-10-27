@@ -11,6 +11,8 @@ import {
 } from './layerNames.js';
 export { localizeLayerName } from './layerNames.js';
 import { createWeatherPanel } from './weatherPanel.js';
+import { mountDriveTexasMapRow } from './driveTexasMap.js';
+import { mountWazeLiveMapRow } from './wazeLiveMap.js';
 import { translateFeedError, translateStatusLine } from './statusText.js';
 import {
   formatNumber,
@@ -421,6 +423,10 @@ export class LayerPanel {
       }
 
       this._toggleContainer.appendChild(row);
+      if (layer.id === 'traffic') {
+        this._removers.push(mountWazeLiveMapRow(this._toggleContainer));
+        this._removers.push(mountDriveTexasMapRow(this._toggleContainer));
+      }
     }
     this._refreshWeatherPanel();
   }

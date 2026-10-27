@@ -11,9 +11,11 @@ export function readVoiceProvider(storage, supported = ['openai', 'gemini']) {
   }
   return supported.includes(saved)
     ? saved
-    : supported.includes('openai')
-      ? 'openai'
-      : supported[0];
+    : supported.includes('gemma-local')
+      ? 'gemma-local'
+      : supported.includes('openai')
+        ? 'openai'
+        : supported[0];
 }
 
 /** Keep one public controller identity while replacing each provider's lifetime. */

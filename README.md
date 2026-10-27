@@ -171,7 +171,7 @@ Open **`http://localhost:4173`** as above. Everything the app saves stays in the
 
 Back up that folder and you've backed up everything; delete `.env` to forget your keys. Source edits still hot-reload. The port is published to `127.0.0.1` only, so the default matches the native one.
 
-The local MCP server and ChatGPT OAuth voice are not available under Docker; use an OpenAI API key for voice.
+The local MCP server and ChatGPT OAuth voice are not available under Docker. For voice without an API key, see [Local Gemma voice](#local-gemma-voice).
 
 Publishing it wider is the [Sharing an instance](#-sharing-an-instance) opt-in, and it hands out **Provider Settings** too: the launcher trusts the container gateway as this machine, and a wider publish delivers everyone else from that same address. For an instance you mean to share, put the keys in `.env` by hand instead. [SECURITY.md](SECURITY.md) has the detail.
 
@@ -294,7 +294,7 @@ Choose a first-run mission, or try these in order. The GIFs show Google Photorea
 
 ![Cycling a dense live globe through CRT, FLIR, and NVG in one continuous view](docs/media/01-style-sweep.gif)
 
-7. **Talk to it** _(needs an OpenAI key)_: _"Take me to LAX and select the nearest airborne aircraft."_
+7. **Talk to it** _(full commands need an OpenAI key; basic map control works with local Gemma)_: _"Take me to LAX and select the nearest airborne aircraft."_
 8. **Come home.** Hit **Reset Globe** — or just say _"zoom out to a globe view."_
 
 **Keyboard:** `1`–`7` visual styles · `H` HUD · `D` detection · `C` cockpit · `` ` `` frame rate · `Esc` out. Trackpad pinch zooms the globe.
@@ -319,7 +319,15 @@ _Why cockpit mode exists: you're riding a real aircraft over real terrain — an
 
 ## 🎙️ Talk to It
 
-The standalone app offers **OpenAI** and **Gemini** in the GEV MIC provider chooser. OpenAI is the initial default; your choice is saved in this browser. To use Gemini, add `GEMINI_API_KEY` in Provider Settings or your local `.env` file, then select Gemini. `GEMINI_LIVE_MODEL` defaults to `gemini-3.8-live`. The permanent key stays on the local server, which issues a constrained, single-use session credential.
+The standalone app offers **Gemma (free)**, **OpenAI**, and **Gemini** in the GEV MIC provider chooser. Gemma is the initial default when this browser has no saved choice; your choice is saved in this browser. To use Gemini, add `GEMINI_API_KEY` in Provider Settings or your local `.env` file, then select Gemini. `GEMINI_LIVE_MODEL` defaults to `gemini-3.8-live`. The permanent key stays on the local server, which issues a constrained, single-use session credential.
+
+### Local Gemma voice
+
+1. Install [LM Studio](https://lmstudio.ai/) on the same Mac and download **Gemma 4 E4B Instruct** (the Q4_K_M GGUF works). Select a Gemma 4 compatible GGUF runtime (llama.cpp 2.64.0 works), start the local server on port **1234**, and load the model.
+2. Run the standalone app with `docker compose up` and open [http://localhost:4173](http://localhost:4173) in **Chrome**.
+3. Select **Gemma (free)** in the GEV MIC chooser, click **GEV MIC**, and allow microphone access for localhost. Start each spoken command with **“God's Eye View”**: _“God's Eye View, take me to Tokyo.”_ You can also say the wake phrase alone, then give the command within eight seconds. Recognition closes when you stop speaking and keeps a brief grace period for split results.
+
+This path has no metered AI API or API key. Gemma processes the command on your Mac through LM Studio; Chrome supplies speech recognition and spoken replies. Chrome speech recognition may use a browser speech service, so this path is free of API charges but is not guaranteed to be fully offline. The local provider supports flying and zooming, layer and panel controls, visual style and map stack changes, and reading the current view. The other voice missions below use the full cloud voice tool set.
 
 Changing provider ends the current conversation. If voice is on, the new provider starts with the same open-mic or push-to-talk mode; a held Space key is not carried over. Gemini uses the same map actions and captions, but has no OpenAI cost meter or MINI tier. When Gemini reports that its session has expired, start voice again for a new conversation. The provider chooser does not change the OpenAI-backed AI HUD summary.
 
@@ -412,6 +420,8 @@ Twenty layers and map sources. **Eighteen have a keyless path.** Some offer addi
 **Weather, keyless.** **Wind** animates 10 m forecast flow from NOAA GFS or ECMWF IFS, with an optional color field and a reading at map center. **Rain radar**, **Satellite clouds** and **Lightning density** are observations on one history timeline in the **WEATHER** panel (step back, **Play**, **Latest**); **Cyclone advisories** draw NHC and CPHC positions, forecast tracks and cones. On Google 3D Tiles the observed layers float above the city as translucent shells, sharpened around your view.
 
 In the app, **Data Layers** groups them as Movement, Cameras, Infrastructure, Events, Weather and Utilities.
+
+**Cedar Creek Lake road views.** The **Waze Live Map** and **DriveTexas Alerts** switches in Movement open their official maps in separate tabs centered near ZIP 75163, covering Trinidad, Tool, Kemp, Malakoff, Gun Barrel City and neighboring towns at a regional zoom. Neither needs an API key. DriveTexas shows current TxDOT closures, construction, damage and other road conditions. These public maps do not provide an exact 50-mile alert filter or add their reports to the globe. If the browser prevents a switch from closing its tab, close the tab manually and the switch will reset.
 
 **The basemap ladder — what each tier buys you:**
 

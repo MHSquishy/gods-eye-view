@@ -465,6 +465,10 @@ test('provider preference uses only the supplied host capability list', () => {
     'gemini',
   );
   assert.equal(
+    readVoiceProvider(stored(null), ['gemma-local', 'openai', 'gemini']),
+    'gemma-local',
+  );
+  assert.equal(
     readVoiceProvider(
       {
         getItem() {
